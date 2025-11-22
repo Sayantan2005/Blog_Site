@@ -2,7 +2,9 @@ import React from 'react'
 
 function SIgnup() {
   return (
-    <div>SIgnup</div>
+    <div>
+      <h1>Sign up</h1>
+    </div>
   )
 }
 
