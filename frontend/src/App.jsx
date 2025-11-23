@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
 import About from "./pages/About";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import SIgnup from "./pages/SIgnup";
 import Navbar from "./components/Navbar";
 
 const router = createBrowserRouter([
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <h1>Test Login Route</h1>
+        <Login />
       </>
     ),
   },
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <Signup />
+        <SIgnup />
       </>
     ),
   },
