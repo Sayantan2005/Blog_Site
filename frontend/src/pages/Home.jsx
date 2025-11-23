@@ -4,7 +4,7 @@ import React from 'react'
 
 function Home() {
   return (
-    <div className='pt-20'>
+    <div className='pt-17'>
      <Hero/>
     </div>
   )
