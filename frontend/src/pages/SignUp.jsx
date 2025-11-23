@@ -3,6 +3,7 @@ import auth from "../assets/auth.jpg"
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Label } from '../components/ui/label'
 import { Input } from '../components/ui/input'
+import { EyeOff } from 'lucide-react'
 
 function SIgnup() {
   return (
@@ -39,6 +40,25 @@ function SIgnup() {
                   className="dark:border-gray-600 dark:bg-gray-900" />
                 </div>
                 
+              </div>
+              <div className='flex-1 flex flex-col gap-1'>
+                <Label>Email</Label>
+                <Input type="email"
+                placeholder="john.doe@example.com"
+                name="email"
+                className="dark:border-gray-600 dark:bg-gray-900" />
+                
+              </div>
+              <div className='relative'>
+                <Label>Password</Label>
+                <Input type="password"
+                placeholder="Create a Password"
+                name="password"
+                className=" mt-1.5 dark:border-gray-600 dark:bg-gray-900" 
+                />
+                <button type='button' className='absolute right-3 top-5 text-gray-500'>
+                  <EyeOff size={20}/>
+                </button>
               </div>
             </form>
           </CardContent>
