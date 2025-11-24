@@ -8,10 +8,17 @@ import { Button } from '../components/ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { toast } from 'sonner'
+import { useDispatch } from 'react-redux';
+
+import { setUser } from '..//redux/authSlice';
+
 
 function Login() {
   const [showPassword , setShowPassword] = useState('false')
   const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
    const [input, setInput] = useState({
       email: "",
       password: ""
@@ -40,6 +47,7 @@ const handleSubmit = async(e)=>{
 
       if(res.data.success){
         navigate('/')
+        dispatch(setUser(res.data.user))
         toast.success(res.data.message)
       }
     } catch (error) {

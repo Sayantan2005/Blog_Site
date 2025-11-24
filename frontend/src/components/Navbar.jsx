@@ -6,10 +6,12 @@ import { Button } from './ui/button'
 import { Search } from 'lucide-react'
 import { FaMoon } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { useSelector } from 'react-redux'
+
 
 
 function Navbar() {
-    const user = true
+    const user = useSelector(store=>store.auth)
     return (
         <div className='py-2 fixed w-full dark:bg-gray-800 dark:border-b-gray-300 border-2 bg-white z-50'>
             <div className='max-w-7xl mx-auto px-4 flex justify-between items-center md:px-0'>
