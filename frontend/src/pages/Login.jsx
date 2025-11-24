@@ -3,18 +3,19 @@ import auth from "../assets/auth.jpg";
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Label } from '../components/ui/label'
 import { Input } from '../components/ui/input'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { toast } from 'sonner'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setUser } from '..//redux/authSlice';
+import { setloading, setUser } from '..//redux/authSlice';
 
 
 function Login() {
   const [showPassword , setShowPassword] = useState('false')
+  const {loading} = useSelector(store=>store.auth)
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -38,6 +39,7 @@ const handleSubmit = async(e)=>{
     console.log(input)
 
     try {
+      dispatch(setloading(true))
       const res = await axios.post("http://localhost:3000/api/v1/user/login",input,{
         headers:{
          "Content-Type":"application/json"
@@ -52,7 +54,10 @@ const handleSubmit = async(e)=>{
       }
     } catch (error) {
       console.log(error)
+    } finally{
+      dispatch(setloading(false))
     }
+
   }
   
   return (
@@ -98,7 +103,15 @@ const handleSubmit = async(e)=>{
                  {showPassword ? <EyeOff size={20}/> : <Eye size={20} /> } 
                 </button>
               </div>
-              <Button type="submit" className="w-full">Login</Button>
+            
+              <Button type="submit" className="w-full">{
+                loading ? (
+                  <>
+                  <Loader2 className='mr-2 w-4 h-4 animate-spin'/>
+                  Please wait
+                  </>
+                ) : ("Login")
+                }</Button>
               <p className='text-center text-gray-600 dark:text-gray-300'>Don't have any account?  <Link to={'/signup'}>
               <span className='underline cursor-pointer hover:text-gray-800 dark:hover:text-gray-100'>Sign Up</span></Link> </p>
             </form>

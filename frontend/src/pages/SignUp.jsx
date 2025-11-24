@@ -3,15 +3,19 @@ import auth from "../assets/auth.jpg"
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Label } from '../components/ui/label'
 import { Input } from '../components/ui/input'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import axios from 'axios'
+import { setloading } from '../redux/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 function SIgnup() {
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+   const {loading} = useSelector(store=>store.auth)
   // Local state to store form input values
   // We keep all fields inside one object called 'user'
   const [user, setUser] = useState({
@@ -45,6 +49,7 @@ function SIgnup() {
 
     // connect the register Api (backend code) with the front end SignUp form
     try {
+      dispatch(setloading(true))
       // Sending HTTP POST request to backend API
       // Sending 'user' data (firstName, lastName, email, password)
       const res = await axios.post(
@@ -73,6 +78,8 @@ function SIgnup() {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message)
+    } finally{
+      dispatch(setloading(false))
     }
   };
 
@@ -140,7 +147,14 @@ function SIgnup() {
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              <Button type="submit" className="w-full">Sign Up</Button>
+              <Button type="submit" className="w-full">{
+                loading ? (
+                  <>
+                  <Loader2 className='mr-2 w-4 h-4 animate-spin'/>
+                  Please wait
+                  </>
+                ) : ("Sign Up")
+                }</Button>
               <p className='text-center text-gray-600 dark:text-gray-300'>Already have an account? <Link to={'/login'}>
                 <span className='underline cursor-pointer hover:text-gray-800 dark:hover:text-gray-100'>Sign in</span></Link> </p>
             </form>
