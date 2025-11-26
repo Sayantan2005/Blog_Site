@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { Search } from 'lucide-react'
+import { ChartColumnBig, Search, User } from 'lucide-react'
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,28 +11,46 @@ import { toggleTheme } from '../redux/themeSlice'
 import { toast } from 'sonner'
 import { setUser } from '../redux/authSlice'
 import axios from 'axios'
+import { LiaCommentSolid } from "react-icons/lia";
+import { FaRegEdit } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu"
 
 
 
 function Navbar() {
-    const user = useSelector(store=>store.auth.user)
+    const user = useSelector(store => store.auth.user)
     const dispatch = useDispatch()
-    const theme = useSelector(store=>store.theme.theme)
+    const theme = useSelector(store => store.theme.theme)
 
     const navigate = useNavigate()
 
     const logoutHandler = async (e) => {
         try {
-            const res = await axios.get(`http://localhost:3000/api/v1/user/logout`,{withCredentials:true})
-            if(res.data.success){
+            const res = await axios.get(`http://localhost:3000/api/v1/user/logout`, { withCredentials: true })
+            if (res.data.success) {
                 navigate('/')
                 dispatch(setUser(null))
                 toast.success(res.data.message)
             }
 
         } catch (error) {
-           console.log(error)
-           toast.error(error) 
+            console.log(error)
+            toast.error(error)
         }
     }
     return (
@@ -66,14 +84,54 @@ function Navbar() {
                         <Link to={'/blogs'}><li>Blogs</li></Link>
                     </ul>
                     <div className='flex '>
-                        <Button onClick={()=>dispatch(toggleTheme())}>
-                            {theme==='light' ? <FaMoon/> : <FaSun/>}</Button>
+                        <Button onClick={() => dispatch(toggleTheme())}>
+                            {theme === 'light' ? <FaMoon /> : <FaSun />}</Button>
                         {
                             user ? <div className='ml-7 flex gap-3 items-center'>
-                                <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
+
+
+
+
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56" align="start">
+                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                        <DropdownMenuGroup>
+                                            <DropdownMenuItem>
+                                                <User />
+                                                <span>Profile</span>
+                                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                <ChartColumnBig />
+                                               <span>Your Blogs</span> 
+                                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                <LiaCommentSolid />
+                                              <span>Comments</span> 
+                                                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                               <DropdownMenuItem>
+                                                <FaRegEdit />
+                                              <span>Write Blog</span> 
+                                                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuGroup>
+                                        <DropdownMenuSeparator />
+
+                                        <DropdownMenuItem>
+                                            <FiLogOut />
+                                           <span>Log out</span>
+                                            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                                 <Button onClick={logoutHandler} >Logout</Button>
                             </div> : <div className='ml-7 md:flex gap-2'>
                                 <Link to={'/login'}><Button>Login</Button></Link>
