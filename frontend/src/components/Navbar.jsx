@@ -102,22 +102,22 @@ function Navbar() {
                                     <DropdownMenuContent className="w-56" align="start">
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuGroup>
-                                            <DropdownMenuItem>
+                                            <DropdownMenuItem onSelect={()=>navigate('/dashboard/profile')}>
                                                 <User />
                                                 <span>Profile</span>
                                                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem>
+                                            <DropdownMenuItem onSelect={()=>navigate('/dashboard/your-blog')}>
                                                 <ChartColumnBig />
                                                <span>Your Blogs</span> 
                                                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem>
+                                            <DropdownMenuItem onSelect={()=>navigate('/dashboard/comments')}>
                                                 <LiaCommentSolid />
                                               <span>Comments</span> 
                                                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                                             </DropdownMenuItem>
-                                               <DropdownMenuItem>
+                                               <DropdownMenuItem onSelect={()=>navigate('/dashboard/write-blog')}>
                                                 <FaRegEdit />
                                               <span>Write Blog</span> 
                                                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>

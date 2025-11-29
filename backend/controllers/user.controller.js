@@ -163,8 +163,14 @@ return res
     }
 }
 
+// update user
+const updateProfile = async(req,res) => {
+    
+}
+
 module.exports = {
     register,
     login,
     logout,
+    updateProfile
 }
