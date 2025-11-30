@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const { connectDB } = require('./database/db.js')
 const userRoute = require("./routes/user.route.js")
 const cors = require('cors')
+const cookieParser = require("cookie-parser")
 const app = express()
 
 dotenv.config()
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3000
 
 // default middleware --> for parsing json data
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({extended:true}))
 // for add cors policy
 app.use(cors({

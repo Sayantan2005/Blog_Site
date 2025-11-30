@@ -114,21 +114,21 @@ const login = async (req, res) => {
 
         // set the token in cookies
         return res
-        .status(200)
-        .cookie(
-            "token",
-            token, 
-            //  options
-            {
-            maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-            httpOnly: true, // Not httpsOnly — proper property name
-            sameSite: "strict",
-            })
-        .json({
-            success: true,
-            message: `Welcome back ${user.firstName}`,
-            user,
-        });
+            .status(200)
+            .cookie(
+                "token",
+                token,
+                //  options
+                {
+                    maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+                    httpOnly: true, // Not httpsOnly — proper property name
+                    sameSite: "strict",
+                })
+            .json({
+                success: true,
+                message: `Welcome back ${user.firstName}`,
+                user,
+            });
 
 
 
@@ -142,23 +142,23 @@ const login = async (req, res) => {
 }
 
 // logout user
-const logout = async(req,res)=>{
+const logout = async (req, res) => {
     try {
         // ✔ Logout Route
-// ✔ Clear the token cookie so user is logged out
-// ✔ Send success response
-return res
-  .status(200)
-  .cookie("token", "", {
-    maxAge: 0,          // Cookie expires immediately → removed from browser
-    httpOnly: true,     // Same security as login cookie
-    secure: true,       // Use only with HTTPS in production
-    sameSite: "strict", // Prevent CSRF
-  })
-  .json({
-    success: true,
-    message: "Logout Successfully", // Inform user logout done
-  });
+        // ✔ Clear the token cookie so user is logged out
+        // ✔ Send success response
+        return res
+            .status(200)
+            .cookie("token", "", {
+                maxAge: 0,          // Cookie expires immediately → removed from browser
+                httpOnly: true,     // Same security as login cookie
+                secure: true,       // Use only with HTTPS in production
+                sameSite: "strict", // Prevent CSRF
+            })
+            .json({
+                success: true,
+                message: "Logout Successfully", // Inform user logout done
+            });
 
     } catch (error) {
         console.log(error)
@@ -166,33 +166,57 @@ return res
 }
 
 // update user
-const updateProfile = async(req,res) => {
+const updateProfile = async (req, res) => {
     try {
         const userId = req.id
-        const {firstName,lastName,occupation,bio,instagram,facebook,linkedin,github} = req.body
+        const { firstName, lastName, occupation, bio, instagram, facebook, linkedin, github } = req.body
 
         const file = req.file
         const fileUri = getDataUri(file)
         let cloudResponse = await cloudinary.uploader.upload(fileUri)
 
+        console.log(cloudResponse)
+
         // fetch user
-        const user  = await User.findById(userId).select("-password")
-        if(!user){
+        const user = await User.findById(userId).select("-password")
+        if (!user) {
             return res.status(404).json({
-                message:"User not found",
-                success:false
+                message: "User not found",
+                success: false
             })
         }
 
         // updating data
-        if(firstName) user.firstName = firstName
-         if(lastname) user.lastName = lastName
+        if (firstName) user.firstName = firstName
+        if (lastName) user.lastName = lastName
+        if (occupation) user.occupation = occupation
+        if (instagram) user.instagram = instagram
+        if (facebook) user.facebook = facebook
+        if (linkedin) user.linkedin = linkedin
+        if (github) user.github = github
+        if (bio) user.bio = bio
+        if (file) user.photoURL = cloudResponse.secure_url
 
+
+        await user.save()
+        return res.status(200).json({
+            message:"Profile updated successfully",
+            success:true,
+            user
+        })
 
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Failed to update profile",
+            success:false
+
+        })
         
     }
 }
+
+
 
 module.exports = {
     register,
