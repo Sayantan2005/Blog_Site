@@ -1,6 +1,8 @@
 const { User } = require("../models/user.model");
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { getDataUri } = require("../utils/dataUri");
+const { cloudinary } = require("../utils/cloudinary");
 
 // register controller
 const register = async (req, res) => {
@@ -165,7 +167,31 @@ return res
 
 // update user
 const updateProfile = async(req,res) => {
-    
+    try {
+        const userId = req.id
+        const {firstName,lastName,occupation,bio,instagram,facebook,linkedin,github} = req.body
+
+        const file = req.file
+        const fileUri = getDataUri(file)
+        let cloudResponse = await cloudinary.uploader.upload(fileUri)
+
+        // fetch user
+        const user  = await User.findById(userId).select("-password")
+        if(!user){
+            return res.status(404).json({
+                message:"User not found",
+                success:false
+            })
+        }
+
+        // updating data
+        if(firstName) user.firstName = firstName
+         if(lastname) user.lastName = lastName
+
+
+    } catch (error) {
+        
+    }
 }
 
 module.exports = {
