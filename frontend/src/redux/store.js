@@ -21,7 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
      auth:authSlice,
-        theme:themeSlice
+     theme:themeSlice
 })
 
 

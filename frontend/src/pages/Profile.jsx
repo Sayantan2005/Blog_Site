@@ -19,9 +19,11 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from '@/components/ui/textarea'
+import { useSelector } from 'react-redux'
 
 
 function Profile() {
+    const {user} = useSelector(store => store.auth)
     return (
         <div className='pt-20 md:ml-80
  md:h-screen'>
@@ -43,7 +45,7 @@ function Profile() {
                     </div>
                     {/* info section */}
                     <div>
-                        <h1 className='font-bold text-center md:text-start text-4xl mb-7'>Welcome User !</h1>
+                        <h1 className='font-bold text-center md:text-start text-4xl mb-7'>Welcome {user.firstName} User!</h1>
                         <p><span className='font-semibold'>Email:</span> sayantans607@gmail.com</p>
                         <div className='flex flex-col gap-2 items-start justify-start my-5'>
                             <Label>About me</Label>

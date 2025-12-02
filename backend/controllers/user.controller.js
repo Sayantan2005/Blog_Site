@@ -165,7 +165,7 @@ const logout = async (req, res) => {
     }
 }
 
-// update user
+// update user profile
 const updateProfile = async (req, res) => {
     try {
         const userId = req.id
