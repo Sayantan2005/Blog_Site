@@ -168,53 +168,69 @@ const logout = async (req, res) => {
 // update user profile
 const updateProfile = async (req, res) => {
     try {
-        const userId = req.id
-        const { firstName, lastName, occupation, bio, instagram, facebook, linkedin, github } = req.body
+        const userId = req.id;
+        const {
+            firstName,
+            lastName,
+            occupation,
+            bio,
+            instagram,
+            facebook,
+            linkedin,
+            github
+        } = req.body;
 
-        const file = req.file
-        const fileUri = getDataUri(file)
-        let cloudResponse = await cloudinary.uploader.upload(fileUri)
+        const file = req.file;
 
-        console.log(cloudResponse)
+        let cloudResponse = null;
 
-        // fetch user
-        const user = await User.findById(userId).select("-password")
+        // Upload ONLY if the user has sent a file
+        if (file) {
+            const fileUri = getDataUri(file);
+            cloudResponse = await cloudinary.uploader.upload(fileUri);
+        }
+
+        // Fetch user
+        const user = await User.findById(userId).select("-password");
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
                 success: false
-            })
+            });
         }
 
-        // updating data
-        if (firstName) user.firstName = firstName
-        if (lastName) user.lastName = lastName
-        if (occupation) user.occupation = occupation
-        if (instagram) user.instagram = instagram
-        if (facebook) user.facebook = facebook
-        if (linkedin) user.linkedin = linkedin
-        if (github) user.github = github
-        if (bio) user.bio = bio
-        if (file) user.photoURL = cloudResponse.secure_url
+        // Updating data
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (occupation) user.occupation = occupation;
+        if (instagram) user.instagram = instagram;
+        if (facebook) user.facebook = facebook;
+        if (linkedin) user.linkedin = linkedin;
+        if (github) user.github = github;
+        if (bio) user.bio = bio;
 
+        // Only update photoURL if image file exists
+        if (cloudResponse) {
+            user.photoURL = cloudResponse.secure_url;
+        }
 
-        await user.save()
+        await user.save();
+
         return res.status(200).json({
-            message:"Profile updated successfully",
-            success:true,
-            user
-        })
+            message: "Profile updated successfully",
+            success: true,
+            user,
+        });
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            message:"Failed to update profile",
-            success:false
-
-        })
-        
+            message: "Failed to update profile",
+            success: false
+        });
     }
-}
+};
+
 
 
 
