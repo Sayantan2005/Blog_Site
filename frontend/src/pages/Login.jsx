@@ -54,6 +54,9 @@ const handleSubmit = async(e)=>{
       }
     } catch (error) {
       console.log(error)
+        // ✅ Show error toast on UI
+      toast.error(error.response?.data?.message || "Invalid credentials");
+      
     } finally{
       dispatch(setloading(false))
     }

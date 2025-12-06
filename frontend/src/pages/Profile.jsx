@@ -23,11 +23,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setloading, setUser } from '@/redux/authSlice'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
 
 
 function Profile() {
     const [open, setOpen] = useState(false)
-    const { user } = useSelector(store => store.auth)
+    const { user ,loading } = useSelector(store => store.auth)
+    
     const dispatch = useDispatch()
     const [input, setInput] = useState({
         firstName: user?.firstName,
@@ -252,7 +254,16 @@ function Profile() {
                                     </div>
                                     <DialogFooter>
 
-                                        <Button onClick={submitHandler} type="submit">Save changes</Button>
+                                        <Button onClick={submitHandler} type="submit">
+                                            {
+                                                loading ? (
+                                                    <>
+                                                    <Loader2 className='mr-2 w-4 h-4 animate-spin'/>
+                                                    Please wait
+                                                    </>
+                                                ) : ("Save Changes")
+                                            }
+                                        </Button>
                                     </DialogFooter>
                                 </DialogContent>
                           

@@ -2,6 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const { connectDB } = require('./database/db.js')
 const userRoute = require("./routes/user.route.js")
+const blogRoute = require("./routes/blog.route.js")
 const cors = require('cors')
 const cookieParser = require("cookie-parser")
 const app = express()
@@ -24,6 +25,8 @@ app.use(cors({
 
 
 app.use("/api/v1/user" , userRoute)
+app.use("/api/v1/blog" , blogRoute)
+
 
 app.listen(PORT , ()=>{
     console.log(`Server listen at Port ${PORT}`)

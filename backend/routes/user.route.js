@@ -12,4 +12,6 @@ router.route("/logout").get(logout) //TODO : a logged in user is able to logout 
 // secured route --> authenticated user (isAuthenticated middleware check the user authenticity) can update there profile 
 router.route("/profile/update").put(isAuthenticated,singleUpload,updateProfile)
 
+
+
 module.exports = router

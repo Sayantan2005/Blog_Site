@@ -14,20 +14,21 @@ import axios from 'axios'
 import { LiaCommentSolid } from "react-icons/lia";
 import { FaRegEdit } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import userLogo from "../assets/userlogo.png"
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu"
 
 
@@ -95,31 +96,31 @@ function Navbar() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" />
+                                            <AvatarImage src={user.photoURL || userLogo} />
                                             <AvatarFallback>CN</AvatarFallback>
                                         </Avatar>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent className="w-56" align="start">
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuGroup>
-                                            <DropdownMenuItem onSelect={()=>navigate('/dashboard/profile')}>
+                                            <DropdownMenuItem onSelect={() => navigate('/dashboard/profile')}>
                                                 <User />
                                                 <span>Profile</span>
                                                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem onSelect={()=>navigate('/dashboard/your-blog')}>
+                                            <DropdownMenuItem onSelect={() => navigate('/dashboard/your-blog')}>
                                                 <ChartColumnBig />
-                                               <span>Your Blogs</span> 
+                                                <span>Your Blogs</span>
                                                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem onSelect={()=>navigate('/dashboard/comments')}>
+                                            <DropdownMenuItem onSelect={() => navigate('/dashboard/comments')}>
                                                 <LiaCommentSolid />
-                                              <span>Comments</span> 
+                                                <span>Comments</span>
                                                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                                             </DropdownMenuItem>
-                                               <DropdownMenuItem onSelect={()=>navigate('/dashboard/write-blog')}>
+                                            <DropdownMenuItem onSelect={() => navigate('/dashboard/write-blog')}>
                                                 <FaRegEdit />
-                                              <span>Write Blog</span> 
+                                                <span>Write Blog</span>
                                                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                                             </DropdownMenuItem>
                                         </DropdownMenuGroup>
@@ -127,7 +128,7 @@ function Navbar() {
 
                                         <DropdownMenuItem>
                                             <FiLogOut />
-                                           <span>Log out</span>
+                                            <span>Log out</span>
                                             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
