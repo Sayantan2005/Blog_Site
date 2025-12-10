@@ -118,3 +118,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.jodit_toolber{
+
+  color:rgba(26, 25,25 ,0.806 )
+}

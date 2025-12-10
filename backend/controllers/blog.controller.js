@@ -96,11 +96,50 @@ const updateBlog = async (req, res) => {
 }
 
 
-// 
+// After update the blog the blog sent to the your blog section and list all you blogs there
+
+const getOwnBlogs = async (req, res) => {
+    try {
+        const userId = req.id
+        if(!userId){
+            return res.status(400).json({
+                message:"User ID is required"
+            })
+        }
+
+      // Find all blogs where the logged-in user is the author
+const blogs = await Blog.find({ author: userId }).populate({
+    
+    // Tell Mongoose to replace the 'author' ObjectId with full user details
+    path: "author",
+
+    // Only return these selected fields from the User model
+    // (Useful for security — prevents sending password, email, etc.)
+    select: "firstName lastName photoURL"
+});
+
+if(!blogs){
+    return res.status(404).json({
+        message:"No blogs found",blogs:[],
+        success:false
+    })
+}
+ return res.status(200).json({
+    blogs,success:true
+ })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error fetching blogs",
+            error: error.message
+        })
+    }
+}
 
 
 
 module.exports = {
     createBlog,
-    updateBlog
+    updateBlog,
+    getOwnBlogs
 }

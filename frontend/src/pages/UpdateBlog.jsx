@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@radix-ui/react-dropdown-menu'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 import JoditEditor from 'jodit-react';
 import {
@@ -15,19 +15,112 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setloading } from '@/redux/blogSlice'
+import { Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import axios from 'axios'
 
 
 function UpdateBlog() {
     const editor = useRef(null)
     const navigate = useNavigate()
     const params = useParams()
-    console.log(params) //it gives a blogId store it on id
+    // console.log(params) //it gives a blogId store it on id
     const id = params.blogId
+    const dispatch = useDispatch()
 
-    //this might be error store.blog in video
-    const {blog} = useSelector(store=>store.blog.blogs)
-    
+    // this might be error store.blog in video
+// const { blogs } = useSelector(store => store.blog); ---> this ios also correct
+ 
+
+    const blogs = useSelector(store=>store.blog.blogs)
+    const {loading} = useSelector(store=>store.blog)
+
+    const selectBlog = blogs.find(blog=>blog._id === id)
+
+    const [content,setContent] = useState(selectBlog.description)
+
+    const [blogData,setBlogData] = useState({
+        title:selectBlog?.title,
+        subtitle:selectBlog?.subtitle,
+        description:content,
+        category:selectBlog?.category
+
+    })
+
+    const [previewthumbnail,setPreviewThumbnail] = useState(selectBlog?.thumbnail)
+
+    const handleChange = (e) =>{
+        const {name,value} = e.target
+        setBlogData((prev)=>({
+            ...prev,
+            [name]:value
+
+        }) )
+    }
+
+    const selectCategory = (value) => {
+        setBlogData({
+            ...blogData,category:value
+        })
+    }
+
+  const selectThumbnail = (e) => {
+    // get the selected file from input[type="file"]
+    const file = e.target.files?.[0];
+
+    // if a file is selected
+    if (file) {
+        // update blogData state and store original file (for backend upload)
+        setBlogData({ ...blogData, thumbnail: file });
+
+        // create a FileReader to read the file
+        const fileReader = new FileReader();
+
+        // onload runs AFTER fileReader successfully reads the file
+        fileReader.onload = () => {
+            // set preview image to the base64 string returned by FileReader
+            setPreviewThumbnail(fileReader.result);
+        };
+
+        // convert the image file into a base64 URL so it can be displayed in <img>
+        fileReader.readAsDataURL(file);
+    }
+};
+
+
+    const updateBlogHandler = async () =>{
+        const formData = new FormData()
+        formData.append("title",blogData.title)
+        formData.append("subtitle",blogData.subtitle)
+        formData.append("description",content)
+        formData.append("category",blogData.category)
+        formData.append("file",blogData.thumbnail)
+        try {
+            dispatch(setloading(true))
+            const res = await axios.put(`http://localhost:3000/api/v1/blog/${id}`,formData,
+                {headers:{
+                    "Content-Type":"multipart/form-data"
+                },
+                withCredentials:true
+                }
+
+            )
+            if(res.data.success){
+                toast.success(res.data.message)
+                console.log(blogData);
+                
+            }
+        } catch (error) {
+           console.log(error);
+           toast.error(error.response?.data?.message || "Blog is not Updated");
+            
+        }finally{
+            dispatch(setloading(false))
+        }
+
+    }
     return (
         <div className='md:ml-80 pt-20 px-3 pb-10'>
             <div className='max-w-6xl mx-auto mt-8'>
@@ -40,23 +133,25 @@ function UpdateBlog() {
                     </div>
                     <div className='pt-5'>
                         <Label className='mb-1'>Title</Label>
-                        <Input type="text" placeholder="Enter a title" name="title" className="dark:border-gray-300" />
+                        <Input type="text" placeholder="Enter a title" value={blogData.title} onChange={handleChange} name="title" className="dark:border-gray-300" />
                     </div>
                     <div className='pt-4'>
                         <Label className='mb-1'>Subtitle</Label>
-                        <Input type="text" placeholder="Enter a subtitle" name="subtitle" className="dark:border-gray-300" />
+                        <Input type="text" placeholder="Enter a subtitle" name="subtitle" className="dark:border-gray-300" value={blogData.subtitle} onChange={handleChange}  />
                     </div>
                     <div>
                         <Label className='mb-1'>Description</Label>
                         <JoditEditor
                             ref={editor}
                             className='jodit_toolber'
+                            onChange={newContent => setContent(newContent)}
+                            value={blogData.description}
                         />
                     </div>
                     <div>
                         <Label className='mb-1'>Category</Label>
 
-                        <Select>
+                        <Select onValueChange={selectCategory} className="dark:border-gray-300">
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select a Category" />
                             </SelectTrigger>
@@ -77,14 +172,25 @@ function UpdateBlog() {
                         <Label className='mb-1'>Thumbnail</Label>
                         <Input type="file"
                         id="file"
+                        onChange={selectThumbnail}
                         accept="image/*" //accept any format image 
                         className="w-fit dark:border-gray-300"
+
                         />
+                        {
+                            previewthumbnail && (
+                                <img src={previewthumbnail} className='w-64 my-2' alt="Blog Thumbnail" />
+                            )
+                        }
                     </div>
 
                     <div className='flex gap-3'>
                         <Button variant="outline" onClick={()=>navigate(-1)}>Back</Button>
-                        <Button>Save</Button>
+                        <Button onClick={updateBlogHandler}>
+                            {
+                                loading ?<> <Loader2 className='mr-2 w-4 h-4 animate-spin'/> Please wait </> : "Save" 
+                            }
+                        </Button>
                     </div>
                 </Card>
             </div>
