@@ -18,6 +18,9 @@ const createBlog = async (req, res) => {
             author: req.id // from isauthenticated middleware 
         })
 
+         // Return populated author
+        blog = await Blog.findById(blog._id).populate("author", "firstName lastName photoURL");
+
         return res.status(201).json({
             success: true,
             blog,
@@ -80,6 +83,8 @@ const updateBlog = async (req, res) => {
 
         blog = await Blog.findByIdAndUpdate(blogId, updateData, { new: true });
 
+          blog = await Blog.findById(blogId).populate("author", "firstName lastName photoURL");
+
         res.status(200).json({
             success: true,
             message: "Blog updated successfully",
@@ -137,9 +142,50 @@ if(!blogs){
 }
 
 
+// delete blog controller
+const deleteBlog = async(req,res) =>{
+    try {
+        const blogId = req.params.id // blog id comes from the url
+        const authorId = req.id //authorId comes from the isAuthenticated middleware
+
+        const blog = await Blog.findById(blogId)
+
+        if(!blog){
+            return res.status(404).json({
+                success:false,
+                message:"Blog not found"
+            })
+        }
+        // if the author is not there
+        if(blog.author.toString() !== authorId){
+            return res.status(403).json({
+                success:false,
+                message:"unauthorized to delete this blog"
+            })
+        }
+        // delete blog
+        await Blog.findByIdAndDelete(blogId);
+
+        res.status(200).json({
+            success:true,
+            message:"Blog deleted successfully"
+        })
+    } catch (error) {
+      return res.status(500).json({
+        success:false,
+        message:"Error deleting blog",
+        error:error.message
+      })  
+    }
+}
+
 
 module.exports = {
     createBlog,
     updateBlog,
-    getOwnBlogs
+    getOwnBlogs,
+    deleteBlog
 }
+
+
+
