@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select"
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setloading } from '@/redux/blogSlice'
+import { setBlog, setloading } from '@/redux/blogSlice'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import axios from 'axios'
@@ -123,6 +123,66 @@ function UpdateBlog() {
         }
 
     }
+
+  // Function to publish or unpublish a blog
+// 'action' will be either "publish" or "unpublish"
+const togglePublishUnpublish = async (action) => {
+    try {
+        // Making a PATCH request to backend
+        // 1st argument → API URL with blog id
+        // 2nd argument → request body (empty because we are not sending body data)
+        // 3rd argument → config object (params + cookies)
+        const res = await axios.patch(
+            `http://localhost:3000/api/v1/blog/${id}`,
+            {},  // no body content, we only need params
+            {
+                // params: { action },         // sending the action to backend (publish/unpublish) we dont need it now
+                withCredentials: true       // send cookies (for authentication)
+            }
+        );
+
+        // If API returns success = true
+        if (res.data.success) {
+
+            // Toggle local publish state (true → false / false → true)
+            setPublish(!publish);
+
+            // Show success toast message
+            toast.success(res.data.message);
+
+            // Redirect user to 'your blogs' page
+            navigate('/dashboard/your-blog');
+        }
+
+    } catch (error) {
+
+        // If something went wrong, log error for debugging
+        console.log(error);
+
+        // Show error toast message to user
+        toast.error("Failed to update");
+    }
+};
+
+
+const deleteBlog = async () => {
+    try {
+        const res = await axios.delete(`http://localhost:3000/api/v1/blog/delete/${id}`,{withCredentials:true})
+
+        if(res.data.success){
+            const updateBlogData = blogs.filter((blogItem) => blogItem._id !== id)
+            dispatch(setBlog(updateBlogData))
+            toast.success(res.data.message)
+            navigate('/dashboard/your-blog')
+        }
+    } catch (error) {
+     console.log(error)
+     toast.error("Something went wrong")   
+    }
+}
+
+
+
     return (
         <div className='md:ml-80 pt-20 px-3 pb-10'>
             <div className='max-w-6xl mx-auto mt-8'>
@@ -130,8 +190,12 @@ function UpdateBlog() {
                     <h1 className='text-4xl font-bold'>Basic Blog Information</h1>
                     <p>Make changes to your blogs here. Click publish when you are done</p>
                     <div className='space-x-2'>
-                        <Button>Publish</Button>
-                        <Button variant="destructive">Remove Blog</Button>
+                        <Button onClick={()=>togglePublishUnpublish(selectBlog.isPublished ? "false" : "true")}>
+                            {
+                                selectBlog.isPublished ? "Unpublish" : "Publish"
+                            }
+                        </Button>
+                        <Button onClick={deleteBlog}variant="destructive">Remove Blog</Button>
                     </div>
                     <div className='pt-5'>
                         <Label className='mb-1'>Title</Label>

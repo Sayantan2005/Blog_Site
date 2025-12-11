@@ -137,7 +137,14 @@ function YourBlog() {
                 <TableRow key={index}>
                   <TableCell className="flex gap-4 items-center">
                     <img src={item.thumbnail} className='w-20 rounded-md hidden md:block' alt="" />
-                    <h1 className='hover:underline cursor-pointer' onClick={()=>navigate(`/blogs/${item._id}`)}>{item.title}</h1>
+                    <div className="flex-1 min-w-0">
+                      <h1
+                        className="hover:underline cursor-pointer wrap-break-words whitespace-normal"
+                        onClick={() => navigate(`/blogs/${item._id}`)}
+                      >
+                        {item.title}
+                      </h1>
+                    </div>
                   </TableCell>
                   <TableCell>{item.category}</TableCell>
                   <TableCell>{formatDate(index)}</TableCell>
@@ -149,7 +156,7 @@ function YourBlog() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem onClick={() => navigate(`/dashboard/write-blog/${item._id}`)} ><Edit />Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600 hover:bg-red-100" onClick={()=>deleteBlog(item._id)}>
+                        <DropdownMenuItem className="text-red-600 hover:bg-red-100" onClick={() => deleteBlog(item._id)}>
                           <Trash2 className=" text-red-600" />
                           Delete
                         </DropdownMenuItem>

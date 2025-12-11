@@ -123,3 +123,7 @@
 
   color:rgba(26, 25,25 ,0.806 )
 }
+
+.blog-content * {
+  color: white !important;
+}

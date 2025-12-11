@@ -6,33 +6,40 @@ const { getDataUri } = require("../utils/dataUri");
 const createBlog = async (req, res) => {
     try {
         const { title, category } = req.body;
+
         if (!title || !category) {
             return res.status(400).json({
                 message: "Blog title and category is required"
-            })
+            });
         }
 
-        const blog = await Blog.create({
+        // Use let so we can reassign later
+        let blog = await Blog.create({
             title,
             category,
-            author: req.id // from isauthenticated middleware 
-        })
+            author: req.id // from auth middleware
+        });
 
-         // Return populated author
-        blog = await Blog.findById(blog._id).populate("author", "firstName lastName photoURL");
+        // Populate author fields
+        blog = await Blog.findById(blog._id).populate(
+            "author",
+            "firstName lastName photoURL"
+        );
 
         return res.status(201).json({
             success: true,
             blog,
             message: "Blog created Successfully"
-        })
+        });
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             message: "Failed to create blog"
-        })
+        });
     }
-}
+};
+
 
 // update blog
 
@@ -184,7 +191,7 @@ const getPublishedBlog = async(_ ,res) =>{
     try {
         const blogs = await Blog.find({isPublished:true}).sort({createdAt: -1}).populate({
             path:"author",
-            select:"firstName,lastName , photoURL"
+            select:"firstName lastName  photoURL"
         })
 
         if(!blogs){

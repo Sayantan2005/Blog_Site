@@ -186,6 +186,8 @@ function BlogView() {
                 <p dangerouslySetInnerHTML={{ __html: selectedBlog.description }} />
 
 
+
+
                 <div className='mt-10'>
                     <div className='flex flex-wrap gap-2 mb-8'>
                         <Badge varient="secondary" className='dark:bg-gray-800 text-white'>Next.js</Badge>
