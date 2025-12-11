@@ -49,6 +49,8 @@ function UpdateBlog() {
 
     })
 
+    const [publish,setPublish] = useState(false)
+
     const [previewthumbnail,setPreviewThumbnail] = useState(selectBlog?.thumbnail)
 
     const handleChange = (e) =>{
