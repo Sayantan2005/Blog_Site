@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BlogCardList from './BlogCardList'
 import { Badge } from './ui/badge'
+import { Input } from './ui/input'
+import { Button } from './ui/button'
 
 function RecentBlog() {
     const dispatch = useDispatch()
@@ -45,12 +47,34 @@ function RecentBlog() {
                 <div className='my-5 flex flex-wrap gap-3'>
                     {
                         ["Blogging","Web Development","Digital Marketing" , "Cooking" , "Photography","Sports"].map((item,index)=>{
-                            return <Badge>{item}</Badge>  
+                            return <Badge className="cursor-pointer" key={index} >{item}</Badge>  
                         })
                     }
                 </div>
+                <h1 className='text-xl font-semibold'>Subscribe to Newsletter</h1>
+                <p className='text-sm text-gray-600 dark:text-gray-400'>Get the latest post and updates delivered straight to your inbox</p>
+                <div className='flex flex-col sm:flex-row gap-2 max-w-md mx-auto mt-5'>
+                    <Input type="email" placeholder="Enter your email" className="flex h-10 w-full rounded-md border bg-gray-200 dark:bg-gray-800 px-3 py-2 text-sm text-gray-300"/>
+
+                    <Button>Subscribe</Button>
+                </div>
+
+                <div className='mt-7'>
+                    <h2 className='text-xl font-semibold mb-3'>Suggested Blogs</h2>
+                    <ul className='space-y-3'>
+                        {
+                            [" 10 tips to Master React",
+                                "Understanding Tailwind CSS",
+                                "Impprove in SEO in 2026"
+                            ].map((title,index)=>{
+                               return <li key={index} className='text-sm dark:text-gray-100 hover:underline cursor-pointer'>{title}</li>
+                            })
+                        }
+                    </ul>
+                </div>
 
             </div>
+
         </div>
          
     </div>
