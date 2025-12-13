@@ -11,7 +11,7 @@ function Home() {
      <Hero/>
      <RecentBlog />
      <PopularAuthors />
-     <Footer />
+   
     </div>
   )
 }
