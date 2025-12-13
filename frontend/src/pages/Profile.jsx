@@ -24,6 +24,7 @@ import { setloading, setUser } from '@/redux/authSlice'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
+import TotalProperty from '@/components/TotalProperty'
 
 
 function Profile() {
@@ -271,6 +272,7 @@ function Profile() {
                     </div>
                 </Card>
             </div>
+            <TotalProperty />
         </div>
     )
 }

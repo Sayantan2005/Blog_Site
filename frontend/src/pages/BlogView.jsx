@@ -25,9 +25,11 @@ import { Bookmark, MessageSquare, Share2, User } from 'lucide-react'
 import { toast } from 'sonner'
 import { setBlog } from '@/redux/blogSlice'
 import axios from 'axios'
+import CommentBox from '@/components/CommentBox'
 
 
 function BlogView() {
+
     const dispatch = useDispatch()
     const params = useParams()
     const blogId = params.blogId
@@ -226,6 +228,7 @@ function BlogView() {
 
                     </div>
                 </div>
+                <CommentBox selectedBlog = {selectedBlog} />
             </div>
         </div>
     )

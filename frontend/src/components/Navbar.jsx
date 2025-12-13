@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import { Input } from './ui/input'
@@ -38,10 +38,36 @@ function Navbar() {
     const dispatch = useDispatch()
     const theme = useSelector(store => store.theme.theme)
 
+// state for search
+    const [searchTerm,setSearchTerm] = useState("")
+
+// function for handle search
+const handleSearch = (e) => {
+    // 🔹 Prevents the default browser behavior
+    // (Without this, the page would reload when the form is submitted)
+    e.preventDefault();
+
+    // 🔹 Check if the search input is NOT empty
+    // trim() removes extra spaces from beginning and end
+    if (searchTerm.trim() !== "") {
+
+        // 🔹 Navigate to the search page with query parameter
+        // encodeURIComponent() makes the search term URL-safe
+        // Example: "react hooks" → "react%20hooks"
+        navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+
+        // 🔹 Clear the search input after navigating
+        setSearchTerm("");
+    }
+};
+
+
+
     const navigate = useNavigate()
 
     const logoutHandler = async (e) => {
         try {
+           
             const res = await axios.get(`http://localhost:3000/api/v1/user/logout`, { withCredentials: true })
             if (res.data.success) {
                 navigate('/')
@@ -71,6 +97,9 @@ function Navbar() {
                         <Input
                             type="text"
                             placeholder="Search..."
+                            value={searchTerm}
+                            onChange = {(e)=>setSearchTerm(e.target.value)}
+                            onClick = {handleSearch}
                             className="border border-gray-700 dark:bg-gray-900 bg-gray-300 w-[300px] hidden md:block" />
 
                         <Button className="absolute right-0 top-0"><Search /></Button>
