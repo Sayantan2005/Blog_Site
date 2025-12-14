@@ -15,6 +15,7 @@ import { LiaCommentSolid } from "react-icons/lia";
 import { FaRegEdit } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import userLogo from "../assets/userlogo.png"
+import { HiMenuAlt1, HiMenuAlt3 } from "react-icons/hi";
 
 import {
     DropdownMenu,
@@ -30,6 +31,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu"
+import ResponsiveMenu from './ResponsiveMenu'
 
 
 
@@ -38,28 +40,31 @@ function Navbar() {
     const dispatch = useDispatch()
     const theme = useSelector(store => store.theme.theme)
 
-// state for search
-    const [searchTerm,setSearchTerm] = useState("")
+    const [openNav, setOpenNav] = useState(false)
 
-// function for handle search
-const handleSearch = (e) => {
-    // 🔹 Prevents the default browser behavior
-    // (Without this, the page would reload when the form is submitted)
-    e.preventDefault();
+    // state for search
+    const [searchTerm, setSearchTerm] = useState("")
 
-    // 🔹 Check if the search input is NOT empty
-    // trim() removes extra spaces from beginning and end
-    if (searchTerm.trim() !== "") {
 
-        // 🔹 Navigate to the search page with query parameter
-        // encodeURIComponent() makes the search term URL-safe
-        // Example: "react hooks" → "react%20hooks"
-        navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+    // function for handle search
+    const handleSearch = (e) => {
+        // 🔹 Prevents the default browser behavior
+        // (Without this, the page would reload when the form is submitted)
+        e.preventDefault();
 
-        // 🔹 Clear the search input after navigating
-        setSearchTerm("");
-    }
-};
+        // 🔹 Check if the search input is NOT empty
+        // trim() removes extra spaces from beginning and end
+        if (searchTerm.trim() !== "") {
+
+            // 🔹 Navigate to the search page with query parameter
+            // encodeURIComponent() makes the search term URL-safe
+            // Example: "react hooks" → "react%20hooks"
+            navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+
+            // 🔹 Clear the search input after navigating
+            setSearchTerm("");
+        }
+    };
 
 
 
@@ -67,7 +72,7 @@ const handleSearch = (e) => {
 
     const logoutHandler = async (e) => {
         try {
-           
+
             const res = await axios.get(`http://localhost:3000/api/v1/user/logout`, { withCredentials: true })
             if (res.data.success) {
                 navigate('/')
@@ -79,6 +84,10 @@ const handleSearch = (e) => {
             console.log(error)
             toast.error(error)
         }
+    }
+
+    const toggleNav = () => {
+        setOpenNav(!openNav)
     }
     return (
         <div className='py-2 fixed w-full dark:bg-gray-800 dark:border-b-gray-300 border-2 bg-white z-50'>
@@ -98,17 +107,16 @@ const handleSearch = (e) => {
                             type="text"
                             placeholder="Search..."
                             value={searchTerm}
-                            onChange = {(e)=>setSearchTerm(e.target.value)}
-                            onClick = {handleSearch}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="border border-gray-700 dark:bg-gray-900 bg-gray-300 w-[300px] hidden md:block" />
 
-                        <Button className="absolute right-0 top-0"><Search /></Button>
+                        <Button onClick={handleSearch} className="absolute right-0 top-0"><Search /></Button>
                     </div>
 
                 </div>
                 {/* nav section */}
                 <nav className='flex md:gap-7 gap-4 items-center'>
-                    <ul className='hiddne md:flex gap-7 items-center text-xl font-semibold'>
+                    <ul className='hidden md:flex gap-7 items-center text-xl font-semibold'>
                         <Link to={'/'}><li>Home</li></Link>
                         <Link to={'/about'}><li>About</li></Link>
                         <Link to={'/blogs'}><li>Blogs</li></Link>
@@ -162,14 +170,20 @@ const handleSearch = (e) => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <Button onClick={logoutHandler} >Logout</Button>
+                                <Button className="hidden md:block" onClick={logoutHandler} >Logout</Button>
                             </div> : <div className='ml-7 md:flex gap-2'>
                                 <Link to={'/login'}><Button>Login</Button></Link>
                                 <Link className='hidden md:block' to={'/signup'}><Button>Signup</Button></Link>
                             </div>
                         }
                     </div>
+
+                    {
+                        openNav ? <HiMenuAlt3 onClick={toggleNav} className='w-7 h-7 md:hidden ' /> : <HiMenuAlt1 onClick={toggleNav} className='w-7 h-7 md:hidden ' />
+                    }
+                    
                 </nav>
+                <ResponsiveMenu openNav={openNav} setOpenNav={setOpenNav} logoutHandler={logoutHandler} />
             </div>
         </div>
     )
