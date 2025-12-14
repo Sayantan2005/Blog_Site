@@ -119,12 +119,13 @@ function YourBlog() {
   }
 
   return (
-    <div className='pb-10 pt-20 md:ml-80 min-h-screen'>
+    <div className='pb-20 pt-20 md:ml-80 min-h-screen '>
       <div className='max-w-6xl mx-auto mt-8'>
-        <Card className="w-full p-5 space-y-2 dark:bg-gray-800" >
+        <Card className="w-full p-5 space-y-2 dark:bg-gray-800 " >
+          
           <Table>
             <TableCaption>A list of your recent blogs.</TableCaption>
-            <TableHeader>
+            <TableHeader className="overflow-x-auto">
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead>Category</TableHead>
@@ -132,19 +133,19 @@ function YourBlog() {
                 <TableHead className="text-center">Action</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="overflow-x-auto">
               {blogs.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="flex gap-4 items-center">
-                    <img src={item.thumbnail} className='w-20 rounded-md hidden md:block' alt="" />
-                    <div className="flex-1 min-w-0">
+                    <img src={item.thumbnail} className='w-[60px] rounded-md hidden md:block' alt="" />
+                    
                       <h1
-                        className="hover:underline cursor-pointer wrap-break-words whitespace-normal"
+                        className="hover:underline cursor-pointer md:wrap-break-words md:whitespace-normal w-[60px] md:w-[320px] truncate"
                         onClick={() => navigate(`/blogs/${item._id}`)}
                       >
                         {item.title}
                       </h1>
-                    </div>
+                  
                   </TableCell>
                   <TableCell>{item.category}</TableCell>
                   <TableCell>{formatDate(index)}</TableCell>
