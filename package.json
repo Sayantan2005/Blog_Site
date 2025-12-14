@@ -1,10 +1,13 @@
 {
-  "name": "backend",
+  "name": "blog-site",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"nodemon backend/server.js",
+    "build": "npm run build --prefix frontend",
+
+    "start":"nodemon backend/server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0",
     "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

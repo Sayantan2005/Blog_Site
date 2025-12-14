@@ -55,12 +55,23 @@ function Comments() {
       <TableBody>
         {allComments.map((comment,index) => (
           <TableRow key={index}>
-            <TableCell className="font-medium">{comment.postId.title}</TableCell>
-            <TableCell>{comment.content}</TableCell>
+            <TableCell className="font-medium ">
+              <h1 className='w-[60px] truncate md:w-full'>{comment.postId.title}</h1>
+              </TableCell>
+            <TableCell>
+              <h1 className='w-[60px] truncate md:w-[320px] md:wrap-break-words md:whitespace-normal '>
+                {comment.content}
+              </h1>
+              </TableCell>
             <TableCell>{comment.userId.firstName}</TableCell>
-            <TableCell className="text-right flex gap-3 items-center justify-center">
-              <Eye className='cursor-pointer' onClick={()=>navigate(`/blogs/${comment.postId._id}`)} />
-            </TableCell>
+             <TableCell className="text-right">
+    <div className="flex justify-center items-center">
+      <Eye
+        className="cursor-pointer"
+        onClick={() => navigate(`/blogs/${comment.postId._id}`)}
+      />
+    </div>
+  </TableCell>
           </TableRow>
         ))}
       </TableBody>
