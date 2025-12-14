@@ -12,8 +12,8 @@ function Hero() {
                 <h1 className='text-4xl md:text-6xl font-bold mb-4'>Discover, Learn, and Build with modern tech</h1>
                 <p className='tetx-lg md:text-xl opacity-80 mb-6'>“A modern blog platform sharing knowledge, creativity, and real-world experiences — curated for tech lovers and curious minds.”</p>
                 <div className='flex space-x-4'>
-                    <Link><Button className="text-lg">Get Started</Button></Link>
-                    <Link><Button variant="outline" className="border-white px-6 py-3 text-lg">Learn More</Button></Link>
+                    <Link to={"/dashboard/write-blog"}><Button className="text-lg">Get Started</Button></Link>
+                    <Link to={"/about"}><Button variant="outline" className="border-white px-6 py-3 text-lg">Learn More</Button></Link>
                 </div>
             </div>
             {/* image section */}

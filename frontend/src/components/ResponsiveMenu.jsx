@@ -39,8 +39,8 @@ function ResponsiveMenu({openNav , setOpenNav , logoutHandler}) {
                 </ul>
             </nav>
         </div>
-        <div className='pb-20'>
-            <h1>Made with ❤️ by </h1>
+        <div className='pb-20 text-center'>
+            <h1>Made with ❤️ by Sayantan</h1>
         </div>
     </div>
   )

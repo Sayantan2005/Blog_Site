@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import {
@@ -132,6 +132,13 @@ function BlogView() {
             toast.error(error.response?.data?.message);
         }
     };
+ useEffect(() => {
+  // Scroll the window to the top (x = 0, y = 0)
+  // This runs when the component is loaded (mounted)
+  // Useful when navigating between pages so the new page
+  // always starts from the top
+  window.scrollTo(0, 0)
+}, []) // Empty dependency array means it runs only once
 
     return (
         <div className='pt-14'>
