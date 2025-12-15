@@ -4,7 +4,8 @@ import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
 import About from "./pages/About";
 import Login from "./pages/Login";
-import SIgnup from "./pages/SIgnup";
+// import SIgnup from "./pages/SIgnup";
+import SIgnup from "./pages/Signup"
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
