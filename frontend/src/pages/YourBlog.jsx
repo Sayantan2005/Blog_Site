@@ -79,7 +79,7 @@ function YourBlog() {
 
   const getOwnBlog = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/v1/blog/get-own-blogs", { withCredentials: true })
+      const res = await axios.get("https://blog-site-2-pzsc.onrender.com/blog/get-own-blogs", { withCredentials: true })
       if (res.data.success) {
         dispatch(setBlog(res.data.blogs))
       }
@@ -90,7 +90,7 @@ function YourBlog() {
 
   const deleteBlog = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:3000/api/v1/blog/delete/${id}`, { withCredentials: true })
+      const res = await axios.delete(`https://blog-site-2-pzsc.onrender.com/blog/delete/${id}`, { withCredentials: true })
 
       if (res.data.success) {
         // After deleting from the backend, the blog is removed from the database,

@@ -101,7 +101,7 @@ function UpdateBlog() {
         formData.append("file",blogData.thumbnail)
         try {
             dispatch(setloading(true))
-            const res = await axios.put(`http://localhost:3000/api/v1/blog/${id}`,formData,
+            const res = await axios.put(`https://blog-site-2-pzsc.onrender.com/blog/${id}`,formData,
                 {headers:{
                     "Content-Type":"multipart/form-data"
                 },
@@ -133,7 +133,7 @@ const togglePublishUnpublish = async (action) => {
         // 2nd argument → request body (empty because we are not sending body data)
         // 3rd argument → config object (params + cookies)
         const res = await axios.patch(
-            `http://localhost:3000/api/v1/blog/${id}`,
+            `https://blog-site-2-pzsc.onrender.com/blog/${id}`,
             {},  // no body content, we only need params
             {
                 // params: { action },         // sending the action to backend (publish/unpublish) we dont need it now
@@ -167,7 +167,7 @@ const togglePublishUnpublish = async (action) => {
 
 const deleteBlog = async () => {
     try {
-        const res = await axios.delete(`http://localhost:3000/api/v1/blog/delete/${id}`,{withCredentials:true})
+        const res = await axios.delete(`https://blog-site-2-pzsc.onrender.com/blog/delete/${id}`,{withCredentials:true})
 
         if(res.data.success){
             const updateBlogData = blogs.filter((blogItem) => blogItem._id !== id)

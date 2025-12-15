@@ -53,7 +53,7 @@ function SIgnup() {
       // Sending HTTP POST request to backend API
       // Sending 'user' data (firstName, lastName, email, password)
       const res = await axios.post(
-        "http://localhost:3000/api/v1/user/register",  // Backend API register route
+        "https://blog-site-2-pzsc.onrender.com/user/register",  // Backend API register route
         user,                                          // Data we send in request body
 
         {

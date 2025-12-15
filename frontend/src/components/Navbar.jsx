@@ -73,7 +73,7 @@ function Navbar() {
     const logoutHandler = async (e) => {
         try {
 
-            const res = await axios.get(`http://localhost:3000/api/v1/user/logout`, { withCredentials: true })
+            const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/user/logout`, { withCredentials: true })
             if (res.data.success) {
                 navigate('/')
                 dispatch(setUser(null))

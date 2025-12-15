@@ -84,7 +84,7 @@ function BlogView() {
 
             // Send a request to backend to like or dislike the blog
             const res = await axios.get(
-                `http://localhost:3000/api/v1/blog/${selectedBlog._id}/${action}`,
+                `https://blog-site-2-pzsc.onrender.com/blog/${selectedBlog._id}/${action}`,
                 { withCredentials: true }
             );
 

@@ -39,7 +39,7 @@
 //   const createBlogHandler = async() => {
 //     try {
 //       dispatch(setloading(true))
-//       const res = await axios.post(`http://localhost:3000/api/v1/blog/`,{title,category},{
+//       const res = await axios.post(`https://blog-site-2-pzsc.onrender.com/blog/`,{title,category},{
 //         headers:{
 //           "Content-Type":"application/json"
 //         },
@@ -161,7 +161,7 @@ function CreateBlog() {
       dispatch(setloading(true))
 
       const res = await axios.post(
-        "http://localhost:3000/api/v1/blog/",
+        "https://blog-site-2-pzsc.onrender.com/blog/",
         { title, category },
         {
           headers: { "Content-Type": "application/json" },

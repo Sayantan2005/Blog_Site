@@ -56,7 +56,7 @@ function CommentBox({ selectedBlog }) {
         try {
             // 🔹 Send POST request to backend to create a new comment
             const res = await axios.post(
-                `http://localhost:3000/api/v1/comment/${selectedBlog._id}/create`,
+                `https://blog-site-2-pzsc.onrender.com/comment/${selectedBlog._id}/create`,
                 { content }, // comment text sent to backend
                 {
                     headers: { "Content-Type": "application/json" },
@@ -109,7 +109,7 @@ function CommentBox({ selectedBlog }) {
     useEffect(() => {
         const getAllcommentsofBlog = async () => {
             try {
-                const res = await axios.get(`http://localhost:3000/api/v1/comment/${selectedBlog._id}/comment/all`)
+                const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/comment/${selectedBlog._id}/comment/all`)
 
                 console.log(res)
 
@@ -129,7 +129,7 @@ function CommentBox({ selectedBlog }) {
     // delete a comment
     const deleteComment = async (commentId) => {
         try {
-            const res = await axios.delete(`http://localhost:3000/api/v1/comment/${commentId}/delete`,{
+            const res = await axios.delete(`https://blog-site-2-pzsc.onrender.com/comment/${commentId}/delete`,{
                 withCredentials:true
             })
             if(res.data.success){
@@ -150,7 +150,7 @@ function CommentBox({ selectedBlog }) {
         // commentId → identifies which comment to edit
         // editedContent → new updated text
         const res = await axios.put(
-            `http://localhost:3000/api/v1/comment/${commentId}/edit`,
+            `https://blog-site-2-pzsc.onrender.com/comment/${commentId}/edit`,
             { content: editedContent }, // request body
             {
                 withCredentials: true, // send auth cookies/JWT
@@ -199,7 +199,7 @@ const likeCommentHandler = async (commentId) => {
         // commentId → identifies which comment is being liked
         // withCredentials → sends auth cookies/JWT
         const res = await axios.get(
-            `http://localhost:3000/api/v1/comment/${commentId}/like`,
+            `https://blog-site-2-pzsc.onrender.com/comment/${commentId}/like`,
             { withCredentials: true }
         );
 

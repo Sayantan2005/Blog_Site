@@ -15,7 +15,7 @@ function RecentBlog() {
     useEffect(()=>{
         const getAllPublishedBlogs = async()=>{
             try {
-                const res = await axios.get(`http://localhost:3000/api/v1/blog/get-published-blogs`,{withCredentials:true})
+                const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/blog/get-published-blogs`,{withCredentials:true})
 
                 if(res.data.success){
                     dispatch(setBlog(res.data.blogs))
@@ -33,7 +33,7 @@ function RecentBlog() {
             <hr className='w-24 text-center border-2 border-red-500 rounded-full' />
 
         </div>
-        <div className='max-w-7xl mx-auto flex gap-5 justify-around'>
+        <div className='max-w-7xl mx-auto flex gap-6'>
             <div>
                 <div className='mt-10 px-4 md:px-0'>
                     {

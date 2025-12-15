@@ -52,7 +52,7 @@ app.use(express.urlencoded({ extended: true }))
 // origin → frontend URL
 // credentials → required for cookies & sessions
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://blog-site-2-pzsc.onrender.com",
     credentials: true
 }))
 
