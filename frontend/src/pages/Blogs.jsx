@@ -14,7 +14,7 @@ useEffect(() => {
     try {
       // dispatch(setBlog([])); // clear existing blogs
 
-      const res = await axios.get("https://blog-site-2-pzsc.onrender.com/blog/get-published-blogs", { 
+      const res = await axios.get("https://blog-site-2-pzsc.onrender.com/api/v1/blog/get-published-blogs", { 
         withCredentials: true 
       });
 

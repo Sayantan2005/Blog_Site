@@ -15,7 +15,7 @@ function RecentBlog() {
     useEffect(()=>{
         const getAllPublishedBlogs = async()=>{
             try {
-                const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/blog/get-published-blogs`,{withCredentials:true})
+                const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/api/v1/blog/get-published-blogs`,{withCredentials:true})
 
                 if(res.data.success){
                     dispatch(setBlog(res.data.blogs))

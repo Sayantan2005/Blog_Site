@@ -40,7 +40,7 @@ const handleSubmit = async(e)=>{
 
     try {
       dispatch(setloading(true))
-      const res = await axios.post("https://blog-site-2-pzsc.onrender.com/user/login",input,{
+      const res = await axios.post("https://blog-site-2-pzsc.onrender.com/api/v1/user/login",input,{
         headers:{
          "Content-Type":"application/json"
         },

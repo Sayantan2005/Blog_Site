@@ -16,7 +16,7 @@ function TotalProperty() {
 
     const getOwnBlog = async() => {
         try {
-          const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/blog/get-own-blogs` ,{withCredentials:true})
+          const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/api/v1/blog/get-own-blogs` ,{withCredentials:true})
 
           if(res.data.success){
             dispatch(setBlog(res.data.blogs))
@@ -28,7 +28,7 @@ function TotalProperty() {
 
     const getTotalComments = async () => {
         try {
-            const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/comment/my-blogs/comments`,{withCredentials:true})
+            const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/api/v1/comment/my-blogs/comments`,{withCredentials:true})
 
             if(res.data.success){
                 setTotalComments(res.data.totalComments)
@@ -41,7 +41,7 @@ function TotalProperty() {
 
     const getTotalLikes = async () => {
         try {
-            const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/blog/my-blogs/likes`,{withCredentials:true})
+            const res = await axios.get(`https://blog-site-2-pzsc.onrender.com/api/v1/blog/my-blogs/likes`,{withCredentials:true})
 
             if(res.data.success){
                 setTotalLikes(res.data.totallikes)
