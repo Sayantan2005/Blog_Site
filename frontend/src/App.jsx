@@ -15,7 +15,7 @@ import CreateBlog from "./pages/CreateBlog";
 import UpdateBlog from "./pages/UpdateBlog";
 import BlogView from "./pages/BlogView";
 import Footer from "./components/Footer";
-import Searchlist from "./pages/searchList";
+import Searchlist from "./pages/Searchlist";
 
 const router = createBrowserRouter([
   {
